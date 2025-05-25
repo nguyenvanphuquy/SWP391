@@ -86,7 +86,7 @@ CREATE TABLE LabResult (
 -- 9. WorkSchedule Table
 CREATE TABLE WorkSchedule (
     work_id INT IDENTITY(1,1) PRIMARY KEY,
-    staff_id INT FOREIGN KEY REFERENCES [User](user_id),
+    doctor_id INT FOREIGN KEY REFERENCES [User](user_id),
     work_date DATE,
     shift VARCHAR(50)
 );
@@ -95,7 +95,7 @@ CREATE TABLE WorkSchedule (
 CREATE TABLE Feedback (
     feedback_id INT IDENTITY(1,1) PRIMARY KEY,
     customer_id INT FOREIGN KEY REFERENCES [User](user_id),
-    doctor_id INT FOREIGN KEY REFERENCES [User](user_id),
+    staff_id INT FOREIGN KEY REFERENCES [User](user_id),
     rating INT,
     comment TEXT,
     created_at DATETIME DEFAULT GETDATE()
@@ -127,4 +127,20 @@ CREATE TABLE Payment (
     paid_amount DECIMAL(12,2),
     paid_at DATETIME DEFAULT GETDATE(),
     method VARCHAR(50)
+);
+--14. Doctor Table
+CREATE TABLE Doctor (
+    doctor_id INT FOREIGN KEY REFERENCES [User](user_id),
+    FullName NVARCHAR(100) NOT NULL,
+    Gender NVARCHAR(10),
+    DateOfBirth DATE,
+    PhoneNumber NVARCHAR(15),
+    Email NVARCHAR(100) UNIQUE,
+    Specialization NVARCHAR(100),
+    Degree NVARCHAR(100),
+    ExperienceYears INT,
+    Username NVARCHAR(50) UNIQUE NOT NULL,
+    Password NVARCHAR(100) NOT NULL,
+    ProfileImage NVARCHAR(255), -- Đường dẫn hoặc tên file ảnh đại diện
+    Status BIT DEFAULT 1
 );
