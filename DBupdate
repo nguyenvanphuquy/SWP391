@@ -170,3 +170,19 @@ CREATE TABLE Blog_Posts (
     PublishedAt DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (ManagerID) REFERENCES Users(UserID)
 );
+
+CREATE TABLE Doctor (
+    doctor_id INT FOREIGN KEY REFERENCES Users(UserID),
+    FullName NVARCHAR(100) NOT NULL,
+    Gender NVARCHAR(10),
+    DateOfBirth DATE,
+    PhoneNumber NVARCHAR(15),
+    Email NVARCHAR(100) UNIQUE,
+    Specialization NVARCHAR(100),
+    Degree NVARCHAR(100),
+    ExperienceYears INT,
+    Username NVARCHAR(50) UNIQUE NOT NULL,
+    Password NVARCHAR(100) NOT NULL,
+    ProfileImage NVARCHAR(255), -- Đường dẫn hoặc tên file ảnh đại diện
+    Status BIT DEFAULT 1
+);
