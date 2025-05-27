@@ -57,7 +57,7 @@ CREATE TABLE Booking (
     booking_id VARCHAR IDENTITY(1,1) PRIMARY KEY,
     customer_id VARCHAR NOT NULL FOREIGN KEY REFERENCES [User](user_id),
     service_id VARCHAR NOT NULL FOREIGN KEY REFERENCES Treatment_Services(service_id),
-    work_id INT NOT NULL FOREIGN KEY REFERENCES WorkSchedule(work_id),
+    work_id VARCHAR NOT NULL FOREIGN KEY REFERENCES WorkSchedule(work_id),
     booking_date DATETIME DEFAULT GETDATE(),
     status VARCHAR(50) DEFAULT 'Pending',
     note TEXT
