@@ -95,7 +95,7 @@ CREATE TABLE Treatment_Schedules (
 CREATE TABLE Treatment_Progress (
     progress_id VARCHAR(20)  PRIMARY KEY,
     schedule_id VARCHAR(20) FOREIGN KEY REFERENCES Treatment_Schedules(schedule_id),
-    date DATE,
+    progress_date DATE,
     activity TEXT,
     doctor_note TEXT,
     status VARCHAR(50)
