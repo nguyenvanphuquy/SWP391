@@ -26,7 +26,7 @@ public class MedicalResultsDao {
                     rs.getString("exam_id"),
                     rs.getString("test_name"),
                     rs.getString("result_value"),
-                    rs.getDate("result_date"),
+                    rs.getTimestamp("result_date"),
                     rs.getString("staff_id")
                 );
             }
@@ -41,7 +41,7 @@ public class MedicalResultsDao {
             stmt.setString(2, result.getExam_id());
             stmt.setString(3, result.getTest_name());
             stmt.setString(4, result.getResult_value());
-            stmt.setDate(5, result.getResult_date());
+            stmt.setTimestamp(5, result.getResult_date());
             stmt.setString(6, result.getStaff_id());
             return stmt.executeUpdate() > 0;
         }
@@ -53,7 +53,7 @@ public class MedicalResultsDao {
             stmt.setString(1, result.getExam_id());
             stmt.setString(2, result.getTest_name());
             stmt.setString(3, result.getResult_value());
-            stmt.setDate(4, result.getResult_date());
+            stmt.setTimestamp(4, result.getResult_date());
             stmt.setString(5, result.getStaff_id());
             stmt.setString(6, result.getResult_id());
             return stmt.executeUpdate() > 0;

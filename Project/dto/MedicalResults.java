@@ -1,19 +1,19 @@
 package Project.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class MedicalResults {
      private String result_id ; 
 	 private String exam_id ;
      private String test_name ;
      private String result_value ;
-     private Date result_date ;
+     private Timestamp result_date ;
      private String staff_id ;
      
      public MedicalResults() {
      }
 
-     public MedicalResults(String result_id, String exam_id, String test_name, String result_value, Date result_date,
+     public MedicalResults(String result_id, String exam_id, String test_name, String result_value, Timestamp result_date,
             String staff_id) {
         this.result_id = result_id;
         this.exam_id = exam_id;
@@ -55,11 +55,11 @@ public class MedicalResults {
          this.result_value = result_value;
      }
 
-     public Date getResult_date() {
+     public Timestamp getResult_date() {
          return result_date;
      }
 
-     public void setResult_date(Date result_date) {
+     public void setResult_date(Timestamp result_date) {
          this.result_date = result_date;
      }
 

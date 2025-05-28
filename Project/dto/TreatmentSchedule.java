@@ -1,19 +1,19 @@
 package Project.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class TreatmentSchedule {
      private String schedule_id ;
      private String result_id ;
-     private Date start_date ;
-     private Date end_date ;
+     private Timestamp start_date ;
+     private Timestamp end_date ;
      private String status ;
      private  String notes ;
      
      public TreatmentSchedule() {
      }
 
-     public TreatmentSchedule(String schedule_id, String result_id, Date start_date, Date end_date, String status,
+     public TreatmentSchedule(String schedule_id, String result_id, Timestamp start_date, Timestamp end_date, String status,
             String notes) {
         this.schedule_id = schedule_id;
         this.result_id = result_id;
@@ -39,19 +39,19 @@ public class TreatmentSchedule {
          this.result_id = result_id;
      }
 
-     public Date getStart_date() {
+     public Timestamp getStart_date() {
          return start_date;
      }
 
-     public void setStart_date(Date start_date) {
+     public void setStart_date(Timestamp start_date) {
          this.start_date = start_date;
      }
 
-     public Date getEnd_date() {
+     public Timestamp getEnd_date() {
          return end_date;
      }
 
-     public void setEnd_date(Date end_date) {
+     public void setEnd_date(Timestamp end_date) {
          this.end_date = end_date;
      }
 

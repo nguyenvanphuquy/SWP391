@@ -1,17 +1,17 @@
 package Project.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class TreatmentProgress {
      private String progress_id ;
      private String schedule_id ;
-     private Date  progress_date ;
+     private Timestamp  progress_date ;
      private String activity ;
      private String doctor_note ;
      private String status ;
      public TreatmentProgress() {
      }
-     public TreatmentProgress(String progress_id, String schedule_id, Date progress_date, String activity,
+     public TreatmentProgress(String progress_id, String schedule_id, Timestamp progress_date, String activity,
             String doctor_note, String status) {
         this.progress_id = progress_id;
         this.schedule_id = schedule_id;
@@ -32,10 +32,10 @@ public class TreatmentProgress {
      public void setSchedule_id(String schedule_id) {
          this.schedule_id = schedule_id;
      }
-     public Date getProgress_date() {
+     public Timestamp getProgress_date() {
          return progress_date;
      }
-     public void setProgress_date(Date progress_date) {
+     public void setProgress_date(Timestamp progress_date) {
          this.progress_date = progress_date;
      }
      public String getActivity() {

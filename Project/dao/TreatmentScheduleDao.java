@@ -23,8 +23,8 @@ public class TreatmentScheduleDao {
                 return new TreatmentSchedule(
                     rs.getString("schedule_id"),
                     rs.getString("result_id"),
-                    rs.getDate("start_date"),
-                    rs.getDate("end_date"),
+                    rs.getTimestamp("start_date"),
+                    rs.getTimestamp("end_date"),
                     rs.getString("status"),
                     rs.getString("notes")
                 );
@@ -38,8 +38,8 @@ public class TreatmentScheduleDao {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, schedule.getSchedule_id());
             stmt.setString(2, schedule.getResult_id());
-            stmt.setDate(3, schedule.getStart_date());
-            stmt.setDate(4, schedule.getEnd_date());
+            stmt.setTimestamp(3, schedule.getStart_date());
+            stmt.setTimestamp(4, schedule.getEnd_date());
             stmt.setString(5, schedule.getStatus());
             stmt.setString(6, schedule.getNotes());
             return stmt.executeUpdate() > 0;
@@ -50,8 +50,8 @@ public class TreatmentScheduleDao {
         String sql = "UPDATE Treatment_Schedules SET result_id=?, start_date=?, end_date=?, status=?, notes=? WHERE schedule_id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, schedule.getResult_id());
-            stmt.setDate(2, schedule.getStart_date());
-            stmt.setDate(3, schedule.getEnd_date());
+            stmt.setTimestamp(2, schedule.getStart_date());
+            stmt.setTimestamp(3, schedule.getEnd_date());
             stmt.setString(4, schedule.getStatus());
             stmt.setString(5, schedule.getNotes());
             stmt.setString(6, schedule.getSchedule_id());

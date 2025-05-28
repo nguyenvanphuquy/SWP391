@@ -1,17 +1,17 @@
 package Project.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class WorkSchedule {
    private String  work_id ;
    private String  doctor_id ;
-   private Date  work_date ;
+   private Timestamp  work_date ;
    private String  shift;
 
    public WorkSchedule() {
    }
 
-   public WorkSchedule(String work_id, String doctor_id, Date work_date, String shift) {
+   public WorkSchedule(String work_id, String doctor_id, Timestamp work_date, String shift) {
     this.work_id = work_id;
     this.doctor_id = doctor_id;
     this.work_date = work_date;
@@ -34,11 +34,11 @@ public class WorkSchedule {
     this.doctor_id = doctor_id;
    }
 
-   public Date getWork_date() {
+   public Timestamp getWork_date() {
     return work_date;
    }
 
-   public void setWork_date(Date work_date) {
+   public void setWork_date(Timestamp work_date) {
     this.work_date = work_date;
    }
 

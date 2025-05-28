@@ -24,7 +24,7 @@ public class WorkScheduleDao {
                 return new WorkSchedule(
                     rs.getString("work_id"),
                     rs.getString("doctor_id"),
-                    rs.getDate("work_date"),
+                    rs.getTimestamp("work_date"),
                     rs.getString("shift")
                 );
             }
@@ -37,7 +37,7 @@ public class WorkScheduleDao {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, schedule.getWork_id());
             stmt.setString(2, schedule.getDoctor_id());
-            stmt.setDate(3, schedule.getWork_date());
+            stmt.setTimestamp(3, schedule.getWork_date());
             stmt.setString(4, schedule.getShift());
             return stmt.executeUpdate() > 0;
         }
@@ -47,7 +47,7 @@ public class WorkScheduleDao {
         String sql = "UPDATE WorkSchedule SET doctor_id=?, work_date=?, shift=? WHERE work_id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, schedule.getDoctor_id());
-            stmt.setDate(2, schedule.getWork_date());
+            stmt.setTimestamp(2, schedule.getWork_date());
             stmt.setString(3, schedule.getShift());
             stmt.setString(4, schedule.getWork_id());
             return stmt.executeUpdate() > 0;

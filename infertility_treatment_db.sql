@@ -48,7 +48,7 @@ CREATE TABLE Treatment_Services (
 CREATE TABLE WorkSchedule (
     work_id VARCHAR(20)  PRIMARY KEY,
     doctor_id VARCHAR(20) NOT NULL FOREIGN KEY REFERENCES [User](user_id),
-    work_date DATE,
+    work_date DATETIME DEFAULT GETDATE(),
     shift VARCHAR(50)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE Booking (
 CREATE TABLE Examination (
     exam_id VARCHAR(20)  PRIMARY KEY,
     booking_id   VARCHAR(20) UNIQUE  NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
-    exam_date DATETIME,
+    exam_date DATETIME DEFAULT GETDATE(),
     diagnosis TEXT,
     recommendation TEXT
 );
@@ -77,7 +77,7 @@ CREATE TABLE Medical_Results (
 	exam_id VARCHAR(20) NOT NULL FOREIGN KEY REFERENCES Examination(exam_id),
     test_name VARCHAR(100),
     result_value VARCHAR(255),
-    result_date DATE,
+    result_date DATETIME DEFAULT GETDATE(),
     staff_id VARCHAR(20) FOREIGN KEY REFERENCES [User](user_id)
 );
 
@@ -85,8 +85,8 @@ CREATE TABLE Medical_Results (
 CREATE TABLE Treatment_Schedules (
     schedule_id VARCHAR(20)  PRIMARY KEY,
     result_id VARCHAR(20) FOREIGN KEY REFERENCES Medical_Results(result_id),
-    start_date DATE,
-    end_date DATE,
+    start_date DATETIME DEFAULT GETDATE(),
+    end_date DATETIME DEFAULT GETDATE(),
     status VARCHAR(50),
     notes TEXT
 );
@@ -95,7 +95,7 @@ CREATE TABLE Treatment_Schedules (
 CREATE TABLE Treatment_Progress (
     progress_id VARCHAR(20)  PRIMARY KEY,
     schedule_id VARCHAR(20) FOREIGN KEY REFERENCES Treatment_Schedules(schedule_id),
-    progress_date DATE,
+    progress_date DATETIME DEFAULT GETDATE(),
     activity TEXT,
     doctor_note TEXT,
     status VARCHAR(50)
