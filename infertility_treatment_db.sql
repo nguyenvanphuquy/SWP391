@@ -164,3 +164,9 @@ CREATE TABLE Blog_Posts (
     content TEXT,
     created_at DATETIME DEFAULT GETDATE()
 );
+
+
+
+
+
+
