@@ -1,16 +1,16 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Notification {
     private String  notification_id ;
 	 private String progress_id ;
      private String content ;
-     private Date sent_at ;
+     private Timestamp sent_at ;
      private  boolean is_read ;
      public Notification() {
      }
-     public Notification(String notification_id, String progress_id, String content, Date sent_at, boolean is_read) {
+     public Notification(String notification_id, String progress_id, String content, Timestamp sent_at, boolean is_read) {
         this.notification_id = notification_id;
         this.progress_id = progress_id;
         this.content = content;
@@ -35,10 +35,10 @@ public class Notification {
      public void setContent(String content) {
          this.content = content;
      }
-     public Date getSent_at() {
+     public Timestamp getSent_at() {
          return sent_at;
      }
-     public void setSent_at(Date sent_at) {
+     public void setSent_at(Timestamp sent_at) {
          this.sent_at = sent_at;
      }
      public boolean isIs_read() {

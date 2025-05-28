@@ -1,8 +1,8 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Treatment_Schedule {
+public class TreatmentSchedule {
      private String schedule_id ;
      private String result_id ;
      private Date start_date ;
@@ -10,10 +10,10 @@ public class Treatment_Schedule {
      private String status ;
      private  String notes ;
      
-     public Treatment_Schedule() {
+     public TreatmentSchedule() {
      }
 
-     public Treatment_Schedule(String schedule_id, String result_id, Date start_date, Date end_date, String status,
+     public TreatmentSchedule(String schedule_id, String result_id, Date start_date, Date end_date, String status,
             String notes) {
         this.schedule_id = schedule_id;
         this.result_id = result_id;

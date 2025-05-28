@@ -1,20 +1,20 @@
 package Project.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Account {
    private String  account_id ;
    private String  user_id  ;
    private String username ; 
    private String password_hash ; 
-   private Date  created_at ;
-     private String is_active ;
+   private Timestamp   created_at ;
+     private boolean is_active ;
      
      public Account() {
      }
 
-     public Account(String account_id, String user_id, String username, String password_hash, Date created_at,
-            String is_active) {
+     public Account(String account_id, String user_id, String username, String password_hash, Timestamp  created_at,
+            boolean is_active) {
         this.account_id = account_id;
         this.user_id = user_id;
         this.username = username;
@@ -55,19 +55,19 @@ public class Account {
          this.password_hash = password_hash;
      }
 
-     public Date getCreated_at() {
+     public Timestamp  getCreated_at() {
          return created_at;
      }
 
-     public void setCreated_at(Date created_at) {
+     public void setCreated_at(Timestamp  created_at) {
          this.created_at = created_at;
      }
 
-     public String getIs_active() {
+     public boolean getIs_active() {
          return is_active;
      }
 
-     public void setIs_active(String is_active) {
+     public void setIs_active(boolean is_active) {
          this.is_active = is_active;
      }
 

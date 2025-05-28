@@ -1,17 +1,17 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Treatment_Progress {
+public class TreatmentProgress {
      private String progress_id ;
      private String schedule_id ;
      private Date  progress_date ;
      private String activity ;
      private String doctor_note ;
      private String status ;
-     public Treatment_Progress() {
+     public TreatmentProgress() {
      }
-     public Treatment_Progress(String progress_id, String schedule_id, Date progress_date, String activity,
+     public TreatmentProgress(String progress_id, String schedule_id, Date progress_date, String activity,
             String doctor_note, String status) {
         this.progress_id = progress_id;
         this.schedule_id = schedule_id;

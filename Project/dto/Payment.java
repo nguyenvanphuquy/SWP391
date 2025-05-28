@@ -1,16 +1,16 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Payment {
      private String payment_id ;
     private String invoice_id   ;
      private double paid_amount;
-    private Date paid_at ;
+    private Timestamp paid_at ;
      private  String method ;
      public Payment() {
      }
-     public Payment(String payment_id, String invoice_id, double paid_amount, Date paid_at, String method) {
+     public Payment(String payment_id, String invoice_id, double paid_amount, Timestamp paid_at, String method) {
         this.payment_id = payment_id;
         this.invoice_id = invoice_id;
         this.paid_amount = paid_amount;
@@ -35,10 +35,10 @@ public class Payment {
      public void setPaid_amount(double paid_amount) {
          this.paid_amount = paid_amount;
      }
-     public Date getPaid_at() {
+     public Timestamp getPaid_at() {
          return paid_at;
      }
-     public void setPaid_at(Date paid_at) {
+     public void setPaid_at(Timestamp paid_at) {
          this.paid_at = paid_at;
      }
      public String getMethod() {

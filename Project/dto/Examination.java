@@ -1,18 +1,18 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Examination {
      private String exam_id ; 
     private String  booking_id ;  
-     private Date exam_date ;
+     private Timestamp exam_date ;
      private String diagnosis ;
      private String recommendation ;
      
      public Examination() {
      }
 
-     public Examination(String exam_id, String booking_id, Date exam_date, String diagnosis, String recommendation) {
+     public Examination(String exam_id, String booking_id, Timestamp exam_date, String diagnosis, String recommendation) {
         this.exam_id = exam_id;
         this.booking_id = booking_id;
         this.exam_date = exam_date;
@@ -36,11 +36,11 @@ public class Examination {
          this.booking_id = booking_id;
      }
 
-     public Date getExam_date() {
+     public Timestamp getExam_date() {
          return exam_date;
      }
 
-     public void setExam_date(Date exam_date) {
+     public void setExam_date(Timestamp exam_date) {
          this.exam_date = exam_date;
      }
 

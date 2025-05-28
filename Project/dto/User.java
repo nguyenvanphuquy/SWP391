@@ -1,8 +1,8 @@
  package Project.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
-class User {
+ public class User {
 
     private String userId;
      private String full_name;

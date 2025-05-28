@@ -1,19 +1,19 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
-public class Feedback_Ratings {
+public class FeedbackRatings {
 
      private String feedback_id ;
      private String customer_id ;
      private String staff_id;
      private int rating ;
      private String comment ;
-     private Date created_at ;
-     public Feedback_Ratings() {
+     private Timestamp created_at ;
+     public FeedbackRatings() {
      }
-     public Feedback_Ratings(String feedback_id, String customer_id, String staff_id, int rating, String comment,
-            Date created_at) {
+     public FeedbackRatings(String feedback_id, String customer_id, String staff_id, int rating, String comment,
+     Timestamp created_at) {
         this.feedback_id = feedback_id;
         this.customer_id = customer_id;
         this.staff_id = staff_id;
@@ -51,10 +51,10 @@ public class Feedback_Ratings {
      public void setComment(String comment) {
          this.comment = comment;
      }
-     public Date getCreated_at() {
+     public Timestamp getCreated_at() {
          return created_at;
      }
-     public void setCreated_at(Date created_at) {
+     public void setCreated_at(Timestamp created_at) {
          this.created_at = created_at;
      }
      

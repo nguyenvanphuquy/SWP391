@@ -1,20 +1,20 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Booking {
      private String booking_id ;
    private String customer_id ;
      private String service_id ;
      private  String work_id ;
-      private Date booking_date;
+      private Timestamp booking_date;
      private String status ;
      private String note ;
      
      public Booking() {
      }
 
-     public Booking(String booking_id, String customer_id, String service_id, String work_id, Date booking_date,
+     public Booking(String booking_id, String customer_id, String service_id, String work_id, Timestamp booking_date,
             String status, String note) {
         this.booking_id = booking_id;
         this.customer_id = customer_id;
@@ -57,11 +57,11 @@ public class Booking {
          this.work_id = work_id;
      }
 
-     public Date getBooking_date() {
+     public Timestamp getBooking_date() {
          return booking_date;
      }
 
-     public void setBooking_date(Date booking_date) {
+     public void setBooking_date(Timestamp booking_date) {
          this.booking_date = booking_date;
      }
 

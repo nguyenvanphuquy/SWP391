@@ -1,16 +1,16 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Invoice {
    private String  invoice_id ;
 	 private String booking_id   ;
-     private Date issued_date;
+     private Timestamp issued_date;
      private double total_amount ;
      private String status ;
      public Invoice() {
      }
-     public Invoice(String invoice_id, String booking_id, Date issued_date, double total_amount, String status) {
+     public Invoice(String invoice_id, String booking_id, Timestamp issued_date, double total_amount, String status) {
         this.invoice_id = invoice_id;
         this.booking_id = booking_id;
         this.issued_date = issued_date;
@@ -29,10 +29,10 @@ public class Invoice {
      public void setBooking_id(String booking_id) {
          this.booking_id = booking_id;
      }
-     public Date getIssued_date() {
+     public Timestamp getIssued_date() {
          return issued_date;
      }
-     public void setIssued_date(Date issued_date) {
+     public void setIssued_date(Timestamp issued_date) {
          this.issued_date = issued_date;
      }
      public double getTotal_amount() {

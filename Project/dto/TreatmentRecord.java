@@ -1,12 +1,12 @@
 package Project.dto;
 
-public class Treatment_Record {
+public class TreatmentRecord {
      private String record_id ;
      private String customer_id ;
      private String result_id ;
-     public Treatment_Record() {
+     public TreatmentRecord() {
      }
-     public Treatment_Record(String record_id, String customer_id, String result_id) {
+     public TreatmentRecord(String record_id, String customer_id, String result_id) {
         this.record_id = record_id;
         this.customer_id = customer_id;
         this.result_id = result_id;

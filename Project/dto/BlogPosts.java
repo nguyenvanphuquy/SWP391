@@ -1,16 +1,16 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
-public class Blog_Posts {
+public class BlogPosts {
      private String post_id ;
      private String manager_id ;
      private String title ;
      private String content ;
-     private Date created_at ;
-     public Blog_Posts() {
+     private Timestamp created_at ;
+     public BlogPosts() {
      }
-     public Blog_Posts(String post_id, String manager_id, String title, String content, Date created_at) {
+     public BlogPosts(String post_id, String manager_id, String title, String content, Timestamp created_at) {
         this.post_id = post_id;
         this.manager_id = manager_id;
         this.title = title;
@@ -41,10 +41,10 @@ public class Blog_Posts {
      public void setContent(String content) {
          this.content = content;
      }
-     public Date getCreated_at() {
+     public Timestamp getCreated_at() {
          return created_at;
      }
-     public void setCreated_at(Date created_at) {
+     public void setCreated_at(Timestamp created_at) {
          this.created_at = created_at;
      }
      

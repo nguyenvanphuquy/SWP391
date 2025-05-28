@@ -1,6 +1,6 @@
 package Project.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class WorkSchedule {
    private String  work_id ;

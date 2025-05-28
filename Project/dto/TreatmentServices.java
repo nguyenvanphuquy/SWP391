@@ -1,6 +1,6 @@
 package Project.dto;
 
-public class Treatment_Services {
+public class TreatmentServices {
 
      private String service_id ;
 	 private String user_id ;
@@ -10,10 +10,10 @@ public class Treatment_Services {
      private double fee ;
      private int duration_days ;
 
-     public Treatment_Services() {
+     public TreatmentServices() {
      }
 
-     public Treatment_Services(String service_id, String user_id, String name_service, String description, String type,
+     public TreatmentServices(String service_id, String user_id, String name_service, String description, String type,
             double fee, int duration_days) {
         this.service_id = service_id;
         this.user_id = user_id;
