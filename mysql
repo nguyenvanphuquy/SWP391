@@ -1,0 +1,394 @@
+-- Tạo Database
+CREATE DATABASE InfertilityDB;
+USE InfertilityDB;
+
+-- 1. Role
+CREATE TABLE Role (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- 2. User
+CREATE TABLE User (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100),
+    gender VARCHAR(10),
+    date_of_birth DATE,
+    phone VARCHAR(20),
+    email VARCHAR(100),
+    address TEXT,
+    role_id INT,
+    FOREIGN KEY (role_id) REFERENCES Role(role_id)
+);
+
+-- 3. Account
+CREATE TABLE Account (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 4. Treatment Services
+CREATE TABLE Treatment_Services (
+    service_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    name VARCHAR(100),
+    description TEXT,
+    type VARCHAR(50),
+    fee DECIMAL(12,2),
+    duration_days INT,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+-- 5. Work Schedule
+CREATE TABLE WorkSchedule (
+    work_id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id INT NOT NULL,
+    work_date DATE,
+    shift VARCHAR(50),
+    FOREIGN KEY (doctor_id) REFERENCES User(user_id)
+);
+
+-- 6. Booking
+CREATE TABLE Booking (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    service_id INT NOT NULL,
+    work_id INT NOT NULL,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'Pending',
+    note TEXT,
+    FOREIGN KEY (customer_id) REFERENCES User(user_id),
+    FOREIGN KEY (service_id) REFERENCES Treatment_Services(service_id),
+    FOREIGN KEY (work_id) REFERENCES WorkSchedule(work_id)
+);
+
+-- 7. Examination
+CREATE TABLE Examination (
+    exam_id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT NOT NULL,
+    exam_date TIMESTAMP,
+    diagnosis TEXT,
+    recommendation TEXT,
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
+);
+
+-- 10. Medical Results
+CREATE TABLE Medical_Results (
+    result_id INT AUTO_INCREMENT PRIMARY KEY,
+    exam_id INT NOT NULL,
+    test_name VARCHAR(100),
+    result_value VARCHAR(255),
+    result_date DATE,
+    staff_id INT,
+    FOREIGN KEY (exam_id) REFERENCES Examination(exam_id),
+    FOREIGN KEY (staff_id) REFERENCES User(user_id)
+);
+
+-- 8. Treatment Schedule
+CREATE TABLE Treatment_Schedules (
+    schedule_id INT AUTO_INCREMENT PRIMARY KEY,
+    result_id INT,
+    start_date DATE,
+    end_date DATE,
+    status VARCHAR(50),
+    notes TEXT,
+    FOREIGN KEY (result_id) REFERENCES Medical_Results(result_id)
+);
+
+-- 9. Treatment Progress
+CREATE TABLE Treatment_Progress (
+    progress_id INT AUTO_INCREMENT PRIMARY KEY,
+    schedule_id INT,
+    date DATE,
+    activity TEXT,
+    doctor_note TEXT,
+    status VARCHAR(50),
+    FOREIGN KEY (schedule_id) REFERENCES Treatment_Schedules(schedule_id)
+);
+
+-- 11. Prescription
+CREATE TABLE Prescription (
+    prescription_id INT AUTO_INCREMENT PRIMARY KEY,
+    result_id INT,
+    medicine_name VARCHAR(255),
+    dosage VARCHAR(100),
+    usage_instruction TEXT,
+    FOREIGN KEY (result_id) REFERENCES Medical_Results(result_id)
+);
+
+-- 12. Invoice
+CREATE TABLE Invoice (
+    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT,
+    issued_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_amount DECIMAL(12,2),
+    status VARCHAR(50),
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
+);
+
+-- 13. Payment
+CREATE TABLE Payment (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    invoice_id INT,
+    paid_amount DECIMAL(12,2),
+    paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    method VARCHAR(50),
+    FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id)
+);
+
+-- 14. Feedback & Ratings
+CREATE TABLE Feedback_Ratings (
+    feedback_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    staff_id INT,
+    rating INT,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES User(user_id),
+    FOREIGN KEY (staff_id) REFERENCES User(user_id)
+);
+
+-- 15. Notification
+CREATE TABLE Notification (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    progress_id INT NOT NULL,
+    content TEXT,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (progress_id) REFERENCES Treatment_Progress(progress_id)
+);
+
+-- 16. Treatment Record (Liên kết lịch sử điều trị & kết quả)
+CREATE TABLE Treatment_Record (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    result_id INT,
+    FOREIGN KEY (customer_id) REFERENCES User(user_id),
+    FOREIGN KEY (result_id) REFERENCES Medical_Results(result_id)
+);
+
+-- 17. Blog Posts
+CREATE TABLE Blog_Posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    manager_id INT,
+    title VARCHAR(255),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (manager_id) REFERENCES User(user_id)
+);
+-- Insert dữ liệu mẫu cho InfertilityDB
+USE InfertilityDB;
+
+-- 1. Insert Role
+INSERT INTO Role (role_name) VALUES 
+('Admin'),
+('Doctor'),
+('Staff'),
+('Customer'),
+('Manager');
+
+-- 2. Insert User
+INSERT INTO User (full_name, gender, date_of_birth, phone, email, address, role_id) VALUES 
+-- Admin
+('Nguyễn Văn Admin', 'Male', '1985-05-15', '0901234567', 'admin@infertility.com', '123 Nguyễn Huệ, Q1, TP.HCM', 1),
+
+-- Doctors
+('Dr. Trần Thị Mai', 'Female', '1980-03-20', '0902345678', 'dr.mai@infertility.com', '456 Lê Lợi, Q1, TP.HCM', 2),
+('Dr. Lê Văn Hùng', 'Male', '1975-08-10', '0903456789', 'dr.hung@infertility.com', '789 Võ Văn Tần, Q3, TP.HCM', 2),
+('Dr. Phạm Thị Lan', 'Female', '1982-12-05', '0904567890', 'dr.lan@infertility.com', '321 Đinh Tiên Hoàng, Bình Thạnh, TP.HCM', 2),
+
+-- Staff
+('Nguyễn Thị Hoa', 'Female', '1990-07-22', '0905678901', 'hoa.staff@infertility.com', '654 Cách Mạng Tháng 8, Q10, TP.HCM', 3),
+('Trần Văn Nam', 'Male', '1988-11-30', '0906789012', 'nam.staff@infertility.com', '987 Hùng Vương, Q5, TP.HCM', 3),
+
+-- Manager
+('Lê Thị Quản Lý', 'Female', '1978-04-18', '0907890123', 'manager@infertility.com', '147 Nguyễn Thị Minh Khai, Q1, TP.HCM', 5),
+
+-- Customers
+('Nguyễn Văn Khách', 'Male', '1985-09-12', '0908901234', 'khach1@gmail.com', '258 Lý Tự Trọng, Q1, TP.HCM', 4),
+('Trần Thị Linh', 'Female', '1987-06-25', '0909012345', 'linh.customer@gmail.com', '369 Pasteur, Q1, TP.HCM', 4),
+('Phạm Văn Đức', 'Male', '1990-02-14', '0910123456', 'duc.pham@gmail.com', '741 Điện Biên Phủ, Q3, TP.HCM', 4),
+('Hoàng Thị Mai', 'Female', '1992-10-08', '0911234567', 'mai.hoang@gmail.com', '852 Cao Thắng, Q10, TP.HCM', 4);
+
+-- 3. Insert Account
+INSERT INTO Account (user_id, username, password_hash, is_active) VALUES 
+(1, 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE), -- password: admin123
+(2, 'dr.mai', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE), -- password: doctor123
+(3, 'dr.hung', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE),
+(4, 'dr.lan', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE),
+(5, 'staff.hoa', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE), -- password: staff123
+(6, 'staff.nam', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE),
+(7, 'manager', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE), -- password: manager123
+(8, 'customer1', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE), -- password: customer123
+(9, 'customer2', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE),
+(10, 'customer3', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE),
+(11, 'customer4', '$2a$10$N9qo8uLOickgx2ZMRZoMye1f1Z3oYOvK2vJ2j8upW3JgpLgzqBzPu', TRUE);
+
+-- 4. Insert Treatment Services
+INSERT INTO Treatment_Services (user_id, name, description, type, fee, duration_days) VALUES 
+(2, 'Khám Tổng Quát Hiếm Muộn', 'Khám và đánh giá tổng quát tình trạng hiếm muộn', 'Consultation', 500000.00, 1),
+(2, 'Siêu Âm Phụ Khoa', 'Siêu âm kiểm tra cơ quan sinh dục nữ', 'Diagnostic', 300000.00, 1),
+(3, 'Xét Nghiệm Hormone', 'Xét nghiệm các hormone liên quan đến sinh sản', 'Laboratory', 800000.00, 2),
+(3, 'Thụ Tinh Nhân Tạo (IUI)', 'Quy trình thụ tinh nhân tạo trong tử cung', 'Treatment', 15000000.00, 30),
+(4, 'Thụ Tinh Ống Nghiệm (IVF)', 'Quy trình thụ tinh ống nghiệm', 'Treatment', 80000000.00, 60),
+(4, 'Tư Vấn Dinh Dưỡng', 'Tư vấn chế độ dinh dưỡng cho phụ nữ mang thai', 'Consultation', 200000.00, 1),
+(2, 'Khám Sản Phụ Khoa', 'Khám định kỳ cho phụ nữ có thai', 'Consultation', 400000.00, 1);
+
+-- 5. Insert Work Schedule
+INSERT INTO WorkSchedule (doctor_id, work_date, shift) VALUES 
+-- Dr. Mai (user_id = 2)
+(2, '2025-06-02', 'Morning'),
+(2, '2025-06-02', 'Afternoon'),
+(2, '2025-06-03', 'Morning'),
+(2, '2025-06-04', 'Morning'),
+(2, '2025-06-05', 'Afternoon'),
+
+-- Dr. Hung (user_id = 3)
+(3, '2025-06-02', 'Afternoon'),
+(3, '2025-06-03', 'Morning'),
+(3, '2025-06-03', 'Afternoon'),
+(3, '2025-06-04', 'Morning'),
+(3, '2025-06-05', 'Morning'),
+
+-- Dr. Lan (user_id = 4)
+(4, '2025-06-02', 'Morning'),
+(4, '2025-06-03', 'Afternoon'),
+(4, '2025-06-04', 'Afternoon'),
+(4, '2025-06-05', 'Morning'),
+(4, '2025-06-05', 'Afternoon');
+
+-- 6. Insert Booking
+INSERT INTO Booking (customer_id, service_id, work_id, status, note) VALUES 
+(8, 1, 1, 'Confirmed', 'Khách hàng cần khám tổng quát'),
+(9, 2, 3, 'Confirmed', 'Siêu âm định kỳ'),
+(10, 3, 6, 'Pending', 'Xét nghiệm hormone theo yêu cầu bác sĩ'),
+(11, 1, 9, 'Confirmed', 'Khám lần đầu'),
+(8, 4, 12, 'Completed', 'Đã hoàn thành IUI'),
+(9, 5, 15, 'In Progress', 'Đang thực hiện IVF');
+
+-- 7. Insert Examination
+INSERT INTO Examination (booking_id, exam_date, diagnosis, recommendation) VALUES 
+(1, '2025-06-02 09:30:00', 'Rối loạn nội tiết tố, ảnh hưởng đến khả năng sinh sản', 'Cần xét nghiệm hormone và điều chỉnh chế độ sinh hoạt'),
+(2, '2025-06-03 08:45:00', 'Tử cung và buồng trứng bình thường', 'Tiếp tục theo dõi, tái khám sau 3 tháng'),
+(4, '2025-06-04 10:15:00', 'Thiếu hụt vitamin D và folate', 'Bổ sung vitamin và theo dõi dinh dưỡng'),
+(5, '2025-06-02 14:30:00', 'Chất lượng tinh trùng tốt, sẵn sàng cho IUI', 'Tiến hành IUI theo kế hoạch'),
+(6, '2025-06-05 09:00:00', 'Phản ứng tốt với thuốc kích thích rụng trứng', 'Chuẩn bị lấy trứng cho IVF');
+
+-- 10. Insert Medical Results (đặt trước Treatment_Schedules vì có FK)
+INSERT INTO Medical_Results (exam_id, test_name, result_value, result_date, staff_id) VALUES 
+(1, 'Hormone FSH', '8.5 mIU/mL', '2025-06-02', 5),
+(1, 'Hormone LH', '6.2 mIU/mL', '2025-06-02', 5),
+(1, 'Estradiol', '45 pg/mL', '2025-06-02', 5),
+(2, 'Siêu âm buồng trứng', 'Bình thường, có 8 nang noãn', '2025-06-03', 6),
+(3, 'Vitamin D', '15 ng/mL', '2025-06-04', 5),
+(3, 'Folate', '3.2 ng/mL', '2025-06-04', 5),
+(4, 'Tinh dịch đồ', 'Nồng độ: 45M/mL, Vận động: 65%', '2025-06-02', 6),
+(5, 'Siêu âm theo dõi nang noãn', '3 nang noãn chính kích thước 18-20mm', '2025-06-05', 5);
+
+-- 8. Insert Treatment Schedule
+INSERT INTO Treatment_Schedules (result_id, start_date, end_date, status, notes) VALUES 
+(1, '2025-06-03', '2025-06-17', 'Active', 'Điều trị hormone trong 2 tuần'),
+(3, '2025-06-05', '2025-07-05', 'Active', 'Bổ sung vitamin D và folate trong 1 tháng'),
+(7, '2025-06-03', '2025-06-10', 'Completed', 'IUI đã thực hiện thành công'),
+(8, '2025-06-06', '2025-07-15', 'Active', 'Theo dõi IVF và chuẩn bị chuyển phôi');
+
+-- 9. Insert Treatment Progress
+INSERT INTO Treatment_Progress (schedule_id, date, activity, doctor_note, status) VALUES 
+(1, '2025-06-03', 'Bắt đầu uống thuốc điều hòa hormone', 'Bệnh nhân phản ứng tốt', 'In Progress'),
+(1, '2025-06-10', 'Kiểm tra lại hormone sau 1 tuần', 'Chỉ số hormone cải thiện', 'In Progress'),
+(2, '2025-06-05', 'Bắt đầu bổ sung vitamin', 'Hướng dẫn liều lượng và cách sử dụng', 'In Progress'),
+(3, '2025-06-03', 'Chuẩn bị IUI', 'Theo dõi rựng trứng', 'Completed'),
+(3, '2025-06-05', 'Thực hiện IUI', 'Quy trình diễn ra thuận lợi', 'Completed'),
+(4, '2025-06-06', 'Lấy trứng cho IVF', 'Thu được 12 trứng chất lượng tốt', 'In Progress'),
+(4, '2025-06-08', 'Thụ tinh và nuôi cấy phôi', '8 phôi phát triển tốt', 'In Progress');
+
+-- 11. Insert Prescription
+INSERT INTO Prescription (result_id, medicine_name, dosage, usage_instruction) VALUES 
+(1, 'Metformin', '500mg', 'Uống 2 viên/ngày sau ăn, sáng và tối'),
+(1, 'Clomiphene Citrate', '50mg', 'Uống 1 viên/ngày từ ngày 3-7 của chu kỳ kinh'),
+(3, 'Vitamin D3', '2000 IU', 'Uống 1 viên/ngày sau ăn sáng'),
+(3, 'Folic Acid', '5mg', 'Uống 1 viên/ngày trước ăn'),
+(7, 'Progesterone', '200mg', 'Đặt âm đạo 2 lần/ngày trong 14 ngày'),
+(8, 'Gonal-F', '150 IU', 'Tiêm dưới da 1 lần/ngày theo hướng dẫn bác sĩ');
+
+-- 12. Insert Invoice
+INSERT INTO Invoice (booking_id, total_amount, status) VALUES 
+(1, 500000.00, 'Paid'),
+(2, 300000.00, 'Paid'),
+(3, 800000.00, 'Pending'),
+(4, 500000.00, 'Paid'),
+(5, 15000000.00, 'Paid'),
+(6, 80000000.00, 'Partial');
+
+-- 13. Insert Payment
+INSERT INTO Payment (invoice_id, paid_amount, method) VALUES 
+(1, 500000.00, 'Cash'),
+(2, 300000.00, 'Credit Card'),
+(4, 500000.00, 'Bank Transfer'),
+(5, 15000000.00, 'Bank Transfer'),
+(6, 40000000.00, 'Bank Transfer');
+
+-- 14. Insert Feedback & Ratings
+INSERT INTO Feedback_Ratings (customer_id, staff_id, rating, comment) VALUES 
+(8, 2, 5, 'Bác sĩ Mai rất tận tình và chuyên nghiệp'),
+(9, 3, 4, 'Bác sĩ Hùng giải thích rất kỹ về quy trình điều trị'),
+(10, 4, 5, 'Dịch vụ tốt, nhân viên thân thiện'),
+(11, 2, 4, 'Hài lòng với dịch vụ khám'),
+(8, 5, 5, 'Nhân viên hỗ trợ rất nhiệt tình');
+
+-- 15. Insert Notification
+INSERT INTO Notification (progress_id, content, is_read) VALUES 
+(1, 'Nhắc nhở: Đã đến lúc uống thuốc hormone buổi tối', FALSE),
+(2, 'Kết quả xét nghiệm hormone đã có, vui lòng liên hệ để biết chi tiết', TRUE),
+(3, 'Nhắc nhở: Uống vitamin D hàng ngày theo đúng chỉ định', FALSE),
+(5, 'Chúc mừng! Quy trình IUI đã hoàn thành thành công', TRUE),
+(6, 'Thông báo: Lịch hẹn theo dõi phôi vào tuần tới', FALSE),
+(7, 'Cập nhật: 8 phôi đang phát triển tốt, chuẩn bị chuyển phôi', FALSE);
+
+-- 16. Insert Treatment Record
+INSERT INTO Treatment_Record (customer_id, result_id) VALUES 
+(8, 1), -- Khách hàng 1 với kết quả hormone
+(8, 7), -- Khách hàng 1 với kết quả IUI
+(9, 4), -- Khách hàng 2 với kết quả siêu âm
+(9, 8), -- Khách hàng 2 với kết quả IVF
+(10, 5), -- Khách hàng 3 với kết quả vitamin D
+(10, 6), -- Khách hàng 3 với kết quả folate
+(11, 1); -- Khách hàng 4 với kết quả hormone
+
+-- 17. Insert Blog Posts
+INSERT INTO Blog_Posts (manager_id, title, content) VALUES 
+(7, 'Hiểu về Vô Sinh Hiếm Muộn', 'Vô sinh hiếm muộn là tình trạng một cặp vợ chồng không thể có con sau 12 tháng quan hệ tình dục đều đặn mà không sử dụng biện pháp tránh thai...'),
+(7, 'Quy Trình Thụ Tinh Ống Nghiệm (IVF)', 'IVF là một trong những phương pháp hỗ trợ sinh sản hiện đại và hiệu quả nhất hiện nay. Quy trình bao gồm các bước chính...'),
+(7, 'Chế Độ Dinh Dưỡng Cho Phụ Nữ Chuẩn Bị Mang Thai', 'Dinh dưỡng đóng vai trò quan trọng trong việc chuẩn bị cho thai kỳ. Phụ nữ nên bổ sung đầy đủ các vitamin và khoáng chất cần thiết...'),
+(7, 'Những Yếu Tố Ảnh Hưởng Đến Khả Năng Sinh Sản', 'Có nhiều yếu tố có thể ảnh hưởng đến khả năng sinh sản của cả nam và nữ giới, bao gồm tuổi tác, lối sống, môi trường và các bệnh lý...'),
+(7, 'Cách Chuẩn Bị Tâm Lý Cho Quá Trình Điều Trị Hiếm Muộn', 'Điều trị hiếm muộn không chỉ là thử thách về mặt thể chất mà còn là thử thách tâm lý. Việc chuẩn bị tinh thần phù hợp rất quan trọng...');
+
+-- Thêm một số dữ liệu bổ sung
+-- Thêm booking và examination cho các trường hợp khác
+INSERT INTO Booking (customer_id, service_id, work_id, status, note) VALUES 
+(8, 6, 4, 'Confirmed', 'Tư vấn dinh dưỡng sau IUI'),
+(10, 7, 8, 'Confirmed', 'Khám sản phụ khoa định kỳ');
+
+INSERT INTO Examination (booking_id, exam_date, diagnosis, recommendation) VALUES 
+(7, '2025-06-04 11:00:00', 'Cần bổ sung dinh dưỡng sau thủ thuật', 'Tăng cường protein và vitamin'),
+(8, '2025-06-03 15:30:00', 'Thai kỳ phát triển bình thường', 'Tiếp tục theo dõi định kỳ');
+
+-- Thêm medical results cho các examination mới
+INSERT INTO Medical_Results (exam_id, test_name, result_value, result_date, staff_id) VALUES 
+(7, 'Tư vấn dinh dưỡng', 'Thiếu protein và iron', '2025-06-04', 5),
+(8, 'Siêu âm thai', 'Thai nhi 8 tuần, phát triển bình thường', '2025-06-03', 6);
+
+-- Thêm invoice cho booking mới
+INSERT INTO Invoice (booking_id, total_amount, status) VALUES 
+(7, 200000.00, 'Paid'),
+(8, 400000.00, 'Paid');
+
+-- Thêm payment cho invoice mới
+INSERT INTO Payment (invoice_id, paid_amount, method) VALUES 
+(7, 200000.00, 'Cash'),
+(8, 400000.00, 'Credit Card');
